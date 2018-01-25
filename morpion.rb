@@ -98,7 +98,7 @@ class Game
 
     # Tant qu'il n'y'a pas de gagnant et qu'il y'a des possibilités de jeux
     puts @board
-    while not (winner or @playable_cases.length == 0)
+    while not (winner || @playable_cases.length == 0)
       # On récupère en même temps le coup joué
       p @playable_cases.length
       winner = turn(who_plays)
