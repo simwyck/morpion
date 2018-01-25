@@ -15,16 +15,16 @@ class Board
   end
 
   def to_s
-    liste = []
-    @board.each{ |casebord|  liste.push(casebord.case_value)}
+    list = []
+    @board.each{ |caseboard|  list.push(caseboard.case_value)}
     # Mise en forme du tableau de jeu
-    "   1 2 3\n   - - -\nA |%s|%s|%s|\nB |%s|%s|%s|\nC |%s|%s|%s|\n   - - -\n" % liste
+    "   1 2 3\n   - - -\nA |%s|%s|%s|\nB |%s|%s|%s|\nC |%s|%s|%s|\n   - - -\n" % list
 
   end
 
   # On positionne le symbole dans l'emplacement 'place'
   # Comme on place toutes les positions dans un même array, on va décaler de 3 si le joueur choisit B, 6 si C et 0 si pour le reste (donc A).
-  def put_on_bord(symbol, place)
+  def put_on_board(symbol, place)
     place.split('')
     index = 0
     add =0
@@ -81,11 +81,11 @@ class Game
     puts "Joueur 2, entrez votre nom"
     name_2 = gets.chomp
 
-    puts "#{name_1}, choisissez votre symbole (O/X)"
+    puts "#{name_1}, choisissez votre symbole (O ou X)"
     symbol_1 = gets.chomp.capitalize
     # Si le symbole est différent de X ou O, on boucle. Le symbole est mis en majuscule.
     while not ["X", "O"].include?(symbol_1)
-      puts "choisissez un symbole entre X et O"
+      puts "WTF! Choisissez un symbole entre X et O!"
       symbol_1 = gets.chomp.capitalize
     end
 
@@ -98,12 +98,12 @@ class Game
 
     # Tant qu'il n'y'a pas de gagnant et qu'il y'a des possibilités de jeux
     puts @board
-    while not winner && @playable_cases.length > 0
+    while not (winner or @playable_cases.length == 0)
       # On récupère en même temps le coup joué
+      p @playable_cases.length
       winner = turn(who_plays)
       turn_number+=1
       who_plays = (1-who_plays)
-
     end
 
     # Mise en forme pour la fin de partie
@@ -113,7 +113,7 @@ class Game
       puts "======================================="
     else
       puts "======================================="
-      puts "  Pas de gagnant, match nul"
+      puts " Pas de gagnant, match nul :("
       puts "======================================="
     end
 
@@ -132,7 +132,7 @@ class Game
       puts @playable_cases
       player_choice = gets.chomp.upcase
     end
-    @board.put_on_bord(player.symbol,player_choice)
+    @board.put_on_board(player.symbol,player_choice)
     # On supprime des cases disponibles le choix du joueur
     @playable_cases.delete(player_choice)
     puts @board
